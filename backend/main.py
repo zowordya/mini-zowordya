@@ -2,7 +2,6 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 import httpx
 import os
@@ -85,10 +84,10 @@ async def generate_content(request: GeminiRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Server error: {str(e)}")
 
-# For production, serve the static frontend files
-@app.get("/{full_path:path}")
-async def serve_frontend(request: Request):
-    return {"message": "Frontend would be served here in production"}
+# Remove the catch-all route that was causing issues
+# @app.get("/{full_path:path}")
+# async def serve_frontend(request: Request):
+#     return {"message": "Frontend would be served here in production"}
 
 if __name__ == "__main__":
     import uvicorn
